@@ -1,0 +1,58 @@
+# Epic Template
+template:
+  name: "epic-tmpl"
+  version: "1.0"
+  sections:
+    - id: "header"
+      title: "Epic Header"
+      required: true
+      fields:
+        - "id: Unique identifier (e.g., EPIC-EMU-CORE)"
+        - "title: Descriptive title"
+        - "phase: Porting phase"
+        - "owner: Assigned agent/team"
+        - "target_date: Target completion"
+        
+    - id: "vision"
+      title: "Epic Vision"
+      required: true
+      description: "What this epic achieves, business value"
+      
+    - id: "scope"
+      title: "Scope"
+      required: true
+      description: "In-scope and out-of-scope for this epic"
+      
+    - id: "stories"
+      title: "Child Stories"
+      required: true
+      description: "List of story IDs comprising this epic"
+      format: "Array of story IDs with priority ordering"
+      
+    - id: "architecture-decisions"
+      title: "Key Architecture Decisions"
+      required: false
+      description: "ADRs made during this epic"
+      
+    - id: "risks"
+      title: "Risks & Mitigations"
+      required: true
+      fields:
+        - "technical: Technical risks"
+        - "schedule: Schedule risks"
+        - "quality: Quality risks"
+        
+    - id: "success-metrics"
+      title: "Success Metrics"
+      required: true
+      description: "How to measure epic completion"
+      metrics:
+        - "Story completion rate"
+        - "Performance benchmarks"
+        - "Accuracy score"
+        - "Code coverage"
+        
+    - id: "rollback-plan"
+      title: "Rollback Plan"
+      required: false
+      description: "If epic fails, how to recover"

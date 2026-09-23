@@ -1,0 +1,89 @@
+# PRD Template for BrickEmuPy PortMaster Port
+template:
+  name: "prd-tmpl"
+  version: "1.0"
+  sections:
+    - id: "executive-summary"
+      title: "Executive Summary"
+      required: true
+      description: "High-level overview of the port project, goals, and success criteria"
+      
+    - id: "problem-statement"
+      title: "Problem Statement"
+      required: true
+      description: "Why port to PortMaster? Current limitations of Python version"
+      
+    - id: "goals-objectives"
+      title: "Goals & Objectives"
+      required: true
+      description: "Measurable goals: performance, compatibility, feature parity"
+      subsections:
+        - "Performance targets (FPS, latency, memory)"
+        - "Game compatibility matrix"
+        - "PortMaster integration requirements"
+        
+    - id: "scope"
+      title: "Scope"
+      required: true
+      description: "In-scope and out-of-scope items for MVP and future phases"
+      subsections:
+        - "MVP scope (must-have cores/games)"
+        - "Phase 2 enhancements"
+        - "Explicitly out of scope"
+        
+    - id: "user-stories"
+      title: "User Stories"
+      required: true
+      description: "User-facing functionality with acceptance criteria"
+      format: "As a [user], I want [feature], so that [benefit]"
+      
+    - id: "functional-requirements"
+      title: "Functional Requirements"
+      required: true
+      description: "Detailed functional specs mapped from Python implementation"
+      categories:
+        - "Core emulation (CPU cores, instruction sets)"
+        - "Peripherals (input, EEPROM, IR, serial)"
+        - "Display rendering (SVG, segments, motion blur)"
+        - "Audio engine (tone generation, mixing)"
+        - "Configuration system (.brick files)"
+        - "Debug interface (breakpoints, step, examine)"
+        - "Serial/IR connectivity"
+        
+    - id: "non-functional-requirements"
+      title: "Non-Functional Requirements"
+      required: true
+      description: "Quality attributes for the port"
+      attributes:
+        - "Performance: 60 FPS on target hardware"
+        - "Memory: < 64MB RAM usage"
+        - "Startup: < 2 seconds"
+        - "Accuracy: Cycle-accurate emulation"
+        - "Portability: ARM32/ARM64 support"
+        
+    - id: "technical-constraints"
+      title: "Technical Constraints"
+      required: true
+      description: "Hard limits from PortMaster platform"
+      constraints:
+        - "Target: ARM Cortex-A7/A53 (32/64-bit)"
+        - "OS: Linux 4.19+ with SDL2"
+        - "No Python runtime allowed"
+        - "Static linking preferred"
+        - "OpenGL ES 2.0+ for rendering"
+        
+    - id: "dependencies"
+      title: "Dependencies & Risks"
+      required: true
+      description: "External dependencies and risk mitigation"
+      
+    - id: "acceptance-criteria"
+      title: "Acceptance Criteria"
+      required: true
+      description: "Definition of Done for the port"
+      criteria:
+        - "All MVP games run at 60 FPS"
+        - "Audio matches reference implementation"
+        - "Save/load state works"
+        - "Serial/IR communication functional"
+        - "PortMaster package installs/runs"

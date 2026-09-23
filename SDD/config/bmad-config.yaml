@@ -1,0 +1,41 @@
+# BMAD Configuration for BrickEmuPy Port to PortMaster
+project:
+  name: "BrickEmuPy-PortMaster"
+  source_language: "Python"
+  target_language: "C++"
+  target_platform: "PortMaster (Linux/ARM)"
+  framework: "SDL2/OpenGL ES"
+
+bmad:
+  version: "1.0"
+  methodology: "Spec Driven Development"
+  agents:
+    - business-analyst
+    - product-manager
+    - architect
+    - developer
+    - qa-engineer
+    - devops-engineer
+  
+  workflows:
+    - spec-driven-development
+    - porting-workflow
+    - validation-workflow
+
+  templates:
+    prd: "templates/prd-tmpl.yaml"
+    architecture: "templates/arch-tmpl.yaml"
+    story: "templates/story-tmpl.yaml"
+    epic: "templates/epic-tmpl.yaml"
+
+  checklists:
+    - "checklists/prd-checklist.md"
+    - "checklists/architecture-checklist.md"
+    - "checklists/story-checklist.md"
+    - "checklists/porting-checklist.md"
+    - "checklists/validation-checklist.md"
+
+paths:
+  source: "../../"
+  specs: "docs/"
+  output: "../../portmaster-build/"

@@ -1,0 +1,71 @@
+# Story Template
+template:
+  name: "story-tmpl"
+  version: "1.0"
+  sections:
+    - id: "header"
+      title: "Story Header"
+      required: true
+      fields:
+        - "id: Unique identifier (e.g., EMU-001)"
+        - "title: Brief descriptive title"
+        - "epic: Parent epic ID"
+        - "phase: Porting phase number"
+        - "priority: Critical/High/Medium/Low"
+        - "estimate: Story points (1,2,3,5,8,13)"
+        
+    - id: "user-story"
+      title: "User Story"
+      required: true
+      format: "As a [role], I want [action], so that [benefit]"
+      
+    - id: "context"
+      title: "Context & Background"
+      required: true
+      description: "Why this story matters, links to Python implementation"
+      
+    - id: "acceptance-criteria"
+      title: "Acceptance Criteria"
+      required: true
+      format: "Gherkin (Given/When/Then)"
+      criteria: []
+      
+    - id: "technical-notes"
+      title: "Technical Implementation Notes"
+      required: false
+      description: "Key algorithms, data structures, Python reference files"
+      fields:
+        - "python_files: List of .py files to reference"
+        - "key_classes: Classes to port"
+        - "algorithms: Critical algorithms to replicate"
+        - "performance_notes: Known bottlenecks"
+        
+    - id: "dependencies"
+      title: "Dependencies"
+      required: false
+      fields:
+        - "blocks: Story IDs this blocks"
+        - "blocked_by: Story IDs this depends on"
+        - "external: External dependencies"
+        
+    - id: "testing"
+      title: "Testing Strategy"
+      required: true
+      fields:
+        - "unit_tests: What to unit test"
+        - "integration_tests: Integration test scenarios"
+        - "accuracy_tests: Emulation accuracy validation"
+        - "performance_tests: Benchmarks to meet"
+        
+    - id: "definition-of-done"
+      title: "Definition of Done"
+      required: true
+      checklist:
+        - "Code compiles on target (ARM32/ARM64)"
+        - "Unit tests pass"
+        - "Integration tests pass"
+        - "Accuracy validated against Python reference"
+        - "Performance meets NFR targets"
+        - "Code reviewed"
+        - "Documentation updated"
+        - "No memory leaks (valgrind clean)"

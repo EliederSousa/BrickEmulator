@@ -1,0 +1,143 @@
+# Architecture Template for BrickEmuPy C++ Port
+template:
+  name: "arch-tmpl"
+  version: "1.0"
+  sections:
+    - id: "overview"
+      title: "System Overview"
+      required: true
+      description: "High-level architecture diagram and component relationships"
+      
+    - id: "architectural-pattern"
+      title: "Architectural Pattern"
+      required: true
+      description: "Selected pattern and rationale"
+      decision: "Component-based with message passing (replaces multiprocessing)"
+      alternatives:
+        - "Monolithic single-threaded"
+        - "Actor model with thread pool"
+        - "Component-based with message queues"
+        
+    - id: "core-components"
+      title: "Core Components"
+      required: true
+      description: "Major modules and their responsibilities"
+      components:
+        - name: "EmulatorCore"
+          responsibility: "Main orchestration, timing, component lifecycle"
+          interfaces: ["IEmulator", "ITimingSource"]
+          
+        - name: "CpuCore"
+          responsibility: "CPU emulation (pluggable per core type)"
+          interfaces: ["ICpuCore", "IDisassembler"]
+          implementations: ["HT943", "SPLB32", "LC5732", "E0C6200", "KS57C21308", "..."]
+          
+        - name: "PeripheralManager"
+          responsibility: "Peripheral registration and event routing"
+          interfaces: ["IPeripheral", "IInputDevice", "IClockDevice", "ISerialDevice"]
+          implementations: ["DirectInput", "MatrixInput", "HT24LC08", "CON_V3_IR", "CON_DGM"]
+          
+        - name: "DisplayRenderer"
+          responsibility: "SVG parsing, segment rendering, effects"
+          interfaces: ["IDisplayRenderer", "ISvgParser"]
+          backends: ["OpenGL ES 2.0", "Software fallback"]
+          
+        - name: "AudioEngine"
+          responsibility: "Tone generation, mixing, audio output"
+          interfaces: ["IAudioEngine", "IAudioSink"]
+          backend: "SDL2 Audio / OpenSL ES"
+          
+        - name: "ConfigLoader"
+          responsibility: ".brick JSON parsing, asset loading"
+          interfaces: ["IConfigLoader"]
+          
+        - name: "DebugInterface"
+          responsibility: "Breakpoints, stepping, state inspection"
+          interfaces: ["IDebugger", "IStateInspector"]
+          
+        - name: "SerialManager"
+          responsibility: "Serial port communication (USB/Bluetooth)"
+          interfaces: ["ISerialPort"]
+          
+    - id: "data-flow"
+      title: "Data Flow"
+      required: true
+      description: "Message flow between components"
+      flows:
+        - name: "Emulation Loop"
+          sequence: ["TimingSource -> EmulatorCore", "EmulatorCore -> CpuCore.clock()", "CpuCore -> PeripheralManager.emit_clock()", "PeripheralManager -> ClockDevices", "CpuCore -> DisplayRenderer (VRAM)", "CpuCore -> AudioEngine (samples)"]
+          
+        - name: "Input Handling"
+          sequence: ["SDL Event -> InputMapper", "InputMapper -> PeripheralManager.emit_input()", "PeripheralManager -> InputDevices", "InputDevices -> CpuCore (port handler)"]
+          
+        - name: "Debug Commands"
+          sequence: ["UI -> DebugInterface", "DebugInterface -> EmulatorCore (pause/step)", "EmulatorCore -> CpuCore (state edit)", "CpuCore -> DebugInterface (examine data)"]
+          
+    - id: "threading-model"
+      title: "Threading Model"
+      required: true
+      description: "Replaces Python multiprocessing with C++ threading"
+      model: "Three-thread architecture"
+      threads:
+        - name: "Main Thread"
+          responsibility: "SDL event loop, UI, rendering"
+          priority: "Normal"
+          
+        - name: "Emulation Thread"
+          responsibility: "CPU emulation, peripherals, timing"
+          priority: "High (real-time)"
+          affinity: "Dedicated core if available"
+          
+        - name: "Audio Thread"
+          responsibility: "Audio callback, mixing"
+          priority: "High"
+          callback: "SDL_AudioCallback"
+          
+      synchronization:
+        - "Lock-free ring buffers for thread communication"
+        - "Atomic flags for pause/stop/step"
+        - "Condition variables for debug synchronization"
+        
+    - id: "memory-management"
+      title: "Memory Management"
+      required: true
+      description: "Strategy for embedded constraints"
+      strategy:
+        - "RAII for all resources"
+        - "Object pools for frequent allocations"
+        - "Static allocation where possible"
+        - "No exceptions (use error codes/expected)"
+        - "Custom allocators for emulator state"
+        
+    - id: "asset-pipeline"
+      title: "Asset Pipeline"
+      required: true
+      description: "Handling SVG, ROM, sound ROM assets"
+      pipeline:
+        - "SVG: Parse at build time -> binary segment map"
+        - "ROM: Embed as const arrays or load from filesystem"
+        - "Sound ROM: Embed or load on demand"
+        - "Config: JSON -> binary schema at build time"
+        
+    - id: "porting-strategy"
+      title: "Porting Strategy"
+      required: true
+      description: "Phased approach from Python to C++"
+      phases:
+        - name: "Phase 1: Foundation"
+          tasks: ["CMake + SDL2 setup", "Config loader", "Basic timing", "Memory management"]
+          
+        - name: "Phase 2: CPU Cores"
+          tasks: ["Core interface", "HT943 (priority)", "SPLB32", "LC5732", "Remaining cores"]
+          
+        - name: "Phase 3: Peripherals"
+          tasks: ["Interconnect", "Input devices", "EEPROM", "IR devices"]
+          
+        - name: "Phase 4: Display & Audio"
+          tasks: ["SVG parser", "Segment renderer", "Motion blur/ghosting", "Audio engine"]
+          
+        - name: "Phase 5: Integration"
+          tasks: ["Debug interface", "Serial/IR", "Save states", "PortMaster packaging"]
+          
+        - name: "Phase 6: Optimization"
+          tasks: ["Profiling", "ARM NEON optimization", "Memory tuning", "Startup optimization"]

@@ -1,0 +1,116 @@
+# Business Analyst Agent
+name: "business-analyst"
+role: "Business Analyst"
+description: "Analyzes requirements, creates PRDs, defines user stories and acceptance criteria"
+skills:
+  - requirements-elicitation
+  - stakeholder-analysis
+  - user-story-mapping
+  - acceptance-criteria-definition
+  - gap-analysis
+tools:
+  - template: "templates/prd-tmpl.yaml"
+  - checklist: "checklists/prd-checklist.md"
+outputs:
+  - "docs/prd/requirements.md"
+  - "docs/prd/user-stories.md"
+  - "docs/prd/acceptance-criteria.md"
+
+---
+# Product Manager Agent
+name: "product-manager"
+role: "Product Manager"
+description: "Prioritizes features, manages backlog, defines MVP scope for port"
+skills:
+  - product-strategy
+  - backlog-management
+  - release-planning
+  - stakeholder-communication
+  - risk-assessment
+tools:
+  - template: "templates/epic-tmpl.yaml"
+  - checklist: "checklists/story-checklist.md"
+outputs:
+  - "docs/prd/product-backlog.md"
+  - "docs/prd/release-plan.md"
+  - "docs/prd/mvp-definition.md"
+
+---
+# Architect Agent
+name: "architect"
+role: "Software Architect"
+description: "Designs system architecture, technology choices, data flow for C++ port"
+skills:
+  - system-design
+  - technology-selection
+  - performance-optimization
+  - cross-platform-development
+  - embedded-systems
+tools:
+  - template: "templates/arch-tmpl.yaml"
+  - checklist: "checklists/architecture-checklist.md"
+outputs:
+  - "docs/architecture/system-design.md"
+  - "docs/architecture/tech-stack.md"
+  - "docs/architecture/data-flow.md"
+  - "docs/architecture/porting-strategy.md"
+
+---
+# Developer Agent
+name: "developer"
+role: "Senior C++ Developer"
+description: "Implements the port from Python to C++ for PortMaster"
+skills:
+  - cpp-development
+  - sdl2-opengl
+  - embedded-linux
+  - performance-optimization
+  - memory-management
+  - multiprocessing-to-threading
+tools:
+  - template: "templates/story-tmpl.yaml"
+  - checklist: "checklists/story-checklist.md"
+  - workflow: "workflows/porting-workflow.md"
+outputs:
+  - "portmaster-build/src/"
+  - "portmaster-build/include/"
+  - "portmaster-build/CMakeLists.txt"
+
+---
+# QA Engineer Agent
+name: "qa-engineer"
+role: "QA Engineer"
+description: "Validates functional parity, performance benchmarks, regression testing"
+skills:
+  - test-automation
+  - performance-testing
+  - regression-testing
+  - embedded-testing
+  - emulation-accuracy
+tools:
+  - checklist: "checklists/validation-checklist.md"
+  - workflow: "workflows/validation-workflow.md"
+outputs:
+  - "docs/qa/test-plan.md"
+  - "docs/qa/benchmark-results.md"
+  - "docs/qa/regression-report.md"
+
+---
+# DevOps Engineer Agent
+name: "devops-engineer"
+role: "DevOps Engineer"
+description: "Sets up build pipeline, cross-compilation, PortMaster packaging"
+skills:
+  - cmake
+  - cross-compilation
+  - docker
+  - ci-cd
+  - portmaster-packaging
+  - arm-toolchains
+tools:
+  - workflow: "workflows/porting-workflow.md"
+  - checklist: "checklists/porting-checklist.md"
+outputs:
+  - "portmaster-build/.github/workflows/"
+  - "portmaster-build/docker/"
+  - "portmaster-build/packaging/"
